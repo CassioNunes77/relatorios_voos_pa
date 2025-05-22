@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SETIC | Retomada dos Voos - Paulo Afonso-BA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0056b3;
+            --primary-dark: #003d7a;
+            --secondary: #4a6fa5;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --dark: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: white;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 0.5rem 0;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 86, 179, 0.8), rgba(0, 61, 122, 0.8)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1474&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Reports Section */
+        .reports {
+            padding: 5rem 0;
+            background-color: var(--light);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .report-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 30px 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .report-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .report-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .report-card:hover .report-icon {
+            transform: scale(1.1);
+        }
+        
+        .report-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .report-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .report-link {
+            display: inline-block;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .report-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        /* Data Section */
+        .data-section {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .data-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .data-content h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .data-content p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+        
+        .highlight {
+            background-color: rgba(0, 86, 179, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .highlight p {
+            font-style: italic;
+            color: var(--dark);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info {
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .copyright {
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .reports-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="https://via.placeholder.com/40" alt="SETIC Logo">
+                <div class="logo-text">
+                    <h1>SETIC</h1>
+                    <p>Secretaria de Turismo, Indústria e Comércio</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home" class="active">Início</a></li>
+                    <li><a href="#reports">Relatórios</a></li>
+                    <li><a href="#data">Dados</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1 class="fade-in">Retomada dos Voos em Paulo Afonso-BA</h1>
+            <p class="fade-in delay-1">Análise abrangente e soluções estratégicas para impulsionar o desenvolvimento econômico e turístico da região através da aviação comercial.</p>
+            <a href="#reports" class="btn fade-in delay-2">Acessar Relatórios</a>
+        </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section class="reports" id="reports">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Relatórios Estratégicos</h2>
+            </div>
+            <div class="reports-grid">
+                <!-- Report Card 1 -->
+                <div class="report-card fade-in">
+                    <div class="report-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Análise de Mercado</h3>
+                    <p>Demografia e potencial econômico para voos regulares</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Report Card 2 -->
+                <div class="report-card fade-in delay-1">
+                    <div class="report-icon">
+                        <i class="fas fa-plane-departure"></i>
+                    </div>
+                    <h3>Infraestrutura Aeroportuária</h3>
+                    <p>Diagnóstico e necessidades de modernização</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Report Card 3 -->
+                <div class="report-card fade-in delay-2">
+                    <div class="report-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Demanda Turística</h3>
+                    <p>Potencial de passageiros e sazonalidade</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Report Card 4 -->
+                <div class="report-card fade-in">
+                    <div class="report-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Parcerias Estratégicas</h3>
+                    <p>Oportunidades com companhias aéreas</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Report Card 5 -->
+                <div class="report-card fade-in delay-1">
+                    <div class="report-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Viabilidade Econômica</h3>
+                    <p>Projeções financeiras e modelos de negócio</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Report Card 6 -->
+                <div class="report-card fade-in delay-2">
+                    <div class="report-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Rotas Prioritárias</h3>
+                    <p>Destinos com maior potencial de conexão</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Report Card 7 -->
+                <div class="report-card fade-in">
+                    <div class="report-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h3>Impacto no Turismo</h3>
+                    <p>Efeitos na rede hoteleira e atrativos locais</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Report Card 8 -->
+                <div class="report-card fade-in delay-1">
+                    <div class="report-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Desenvolvimento Empresarial</h3>
+                    <p>Oportunidades para negócios locais</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Report Card 9 -->
+                <div class="report-card fade-in delay-2">
+                    <div class="report-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Incentivos Fiscais</h3>
+                    <p>Modelos de subsídios e benefícios</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Report Card 10 -->
+                <div class="report-card fade-in">
+                    <div class="report-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Cronograma de Implementação</h3>
+                    <p>Etapas e prazos para retomada dos voos</p>
+                    <a href="#" class="report-link">Acessar Relatório <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Section -->
+    <section class="data-section" id="data">
+        <div class="container">
+            <div class="data-content fade-in">
+                <h2>Dados Estratégicos para Retomada dos Voos</h2>
+                <p>Relatório abrangente com análise de mercado, infraestrutura e oportunidades para a retomada da aviação comercial em Paulo Afonso-BA</p>
+                
+                <div class="highlight fade-in delay-1">
+                    <p>"A retomada dos voos comerciais em Paulo Afonso representa não apenas um avanço na mobilidade regional, mas um catalisador para o desenvolvimento econômico e turístico de toda a área de influência."</p>
+                </div>
+                
+                <p class="fade-in delay-2">Nossos relatórios apresentam dados atualizados, análises especializadas e recomendações estratégicas para viabilizar a operação de voos regulares na região.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <h3>SETIC</h3>
+                <p>Secretaria de Turismo, Indústria e Comércio</p>
+            </div>
+            <div class="contact-info">
+                <p>Paulo Afonso - Bahia</p>
+                <p>contato@setic-pauloafonso.ba.gov.br</p>
+                <p>(75) 3281-XXXX</p>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 SETIC. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Update active nav link
+                document.querySelectorAll('nav a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
