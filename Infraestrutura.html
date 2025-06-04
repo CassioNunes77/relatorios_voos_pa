@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adequação do Aeroporto de Paulo Afonso (SBUF/PAV)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #0066cc;
+            --accent: #ff6600;
+            --light: #f5f5f5;
+            --dark: #333333;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 22px;
+            color: var(--primary);
+            margin: 25px 0 15px;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 8px;
+        }
+        
+        h3 {
+            font-size: 18px;
+            color: var(--secondary);
+            margin: 20px 0 10px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        .status-current {
+            background-color: var(--warning);
+            color: #000;
+        }
+        
+        .status-goal {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            font-weight: 500;
+            color: var(--accent);
+        }
+        
+        .progress-container {
+            margin: 30px 0;
+        }
+        
+        .progress-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent);
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        .priority-list {
+            list-style-type: none;
+        }
+        
+        .priority-list li {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .priority-list li strong {
+            color: var(--primary);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Adequação do Aeroporto de Paulo Afonso (SBUF/PAV)</h1>
+            <p>Transformando o aeroporto para operações com aeronaves Airbus A320 e Boeing 737</p>
+        </header>
+        
+        <section>
+            <h2>Panorama Atual</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">✈</div>
+                        <h3 class="card-title">Dados do Aeroporto</h3>
+                    </div>
+                    <ul>
+                        <li><strong>Localização:</strong> Paulo Afonso, BA</li>
+                        <li><strong>Código ICAO:</strong> SBUF</li>
+                        <li><strong>Altitude:</strong> 275 metros (902 pés)</li>
+                        <li><strong>Serviços:</strong> Básicos, sem voos comerciais regulares</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🛣</div>
+                        <h3 class="card-title">Pista de Pouso</h3>
+                        <span class="status-badge status-current">ATUAL</span>
+                    </div>
+                    <ul>
+                        <li><strong>Comprimento:</strong> 1.800 metros</li>
+                        <li><strong>Largura:</strong> 45 metros</li>
+                        <li><strong>Revestimento:</strong> Asfalto</li>
+                        <li><strong>Capacidade:</strong> Limitada a aeronaves menores</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">📡</div>
+                        <h3 class="card-title">Sistemas de Navegação</h3>
+                        <span class="status-badge status-current">ATUAL</span>
+                    </div>
+                    <ul>
+                        <li><strong>NDB:</strong> Disponível</li>
+                        <li><strong>VOR:</strong> Disponível</li>
+                        <li><strong>ILS:</strong> Não disponível</li>
+                        <li><strong>GNSS:</strong> Disponível</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Requisitos para A320 e B737</h2>
+            <div class="card">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Airbus A320</th>
+                            <th>Boeing 737-800</th>
+                            <th>Situação Atual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Comprimento mínimo de pista</td>
+                            <td>2.100-2.300m</td>
+                            <td>2.300-2.600m</td>
+                            <td class="highlight">1.800m (insuficiente)</td>
+                        </tr>
+                        <tr>
+                            <td>Largura de pista</td>
+                            <td>45m</td>
+                            <td>45m</td>
+                            <td class="highlight">45m (adequada)</td>
+                        </tr>
+                        <tr>
+                            <td>Peso máximo (MTOW)</td>
+                            <td>78 toneladas</td>
+                            <td>79 toneladas</td>
+                            <td class="highlight">Capacidade não verificada</td>
+                        </tr>
+                        <tr>
+                            <td>Sistema de aproximação</td>
+                            <td>ILS recomendado</td>
+                            <td>ILS recomendado</td>
+                            <td class="highlight">Sem ILS</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Objetivos Prioritários</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">1️⃣</div>
+                        <h3 class="card-title">Ampliação da Pista</h3>
+                        <span class="status-badge status-goal">OBJETIVO</span>
+                    </div>
+                    <ul>
+                        <li><strong>Atual:</strong> 1.800 metros</li>
+                        <li><strong>Necessário:</strong> 2.400 metros</li>
+                        <li><strong>Ampliação:</strong> +600 metros</li>
+                        <li><strong>Desafios:</strong> Conflitos com habitações próximas</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">2️⃣</div>
+                        <h3 class="card-title">Implementação de ILS</h3>
+                        <span class="status-badge status-goal">OBJETIVO</span>
+                    </div>
+                    <ul>
+                        <li><strong>Atual:</strong> Sem sistema de pouso por instrumentos</li>
+                        <li><strong>Necessário:</strong> ILS Categoria I</li>
+                        <li><strong>Benefício:</strong> Permitir operações em condições meteorológicas adversas</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Outras Necessidades de Infraestrutura</h2>
+            <ul class="priority-list">
+                <li><strong>Reforço do Pavimento:</strong> Avaliação e reforço da resistência estrutural (PCN) para suportar MTOW superior a 75 toneladas</li>
+                <li><strong>Pátio de Aeronaves:</strong> Expansão para comportar aeronaves narrow-body simultaneamente</li>
+                <li><strong>Terminal de Passageiros:</strong> Capacidade mínima para 500 passageiros/hora com sistemas de check-in e embarque</li>
+                <li><strong>Serviços de Combustível:</strong> Construção de tanques de armazenamento para JET A-1</li>
+                <li><strong>Iluminação Noturna:</strong> Instalação de lâmpadas de borda, cabeceira e taxiway</li>
+                <li><strong>Segurança:</strong> Viaturas de combate a incêndio e ambulância dedicada</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Justificativa Estratégica</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">📍</div>
+                        <h3 class="card-title">Localização</h3>
+                    </div>
+                    <p>Posição geográfica estratégica próxima a três estados (BA, PE e AL), potencializando conexões regionais.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🏞</div>
+                        <h3 class="card-title">Turismo</h3>
+                    </div>
+                    <p>Servir como porta de entrada para atrações como os Cânions do São Francisco e a usina de Paulo Afonso.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">💼</div>
+                        <h3 class="card-title">Desenvolvimento</h3>
+                    </div>
+                    <p>Geração de empregos, escoamento de produção e estímulo ao desenvolvimento econômico regional.</p>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Relatório Técnico - Aeroporto de Paulo Afonso (SBUF/PAV) | Atualizado em 2023</p>
+        </footer>
+    </div>
+</body>
+</html>
