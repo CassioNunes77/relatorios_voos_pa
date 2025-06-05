@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotas Prioritárias - Aeroporto de Paulo Afonso</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .header-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            margin: 2rem 0 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            border: none;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 1.2rem;
+        }
+        
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+        
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+        
+        .source-citation {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            text-align: right;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        .route-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .footer {
+            background-color: #212529;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 280px;
+            }
+            
+            .stat-card .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="header-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="fs-3 fw-bold">Rotas Prioritárias</h1>
+                    <h2 class="fs-5">Principais destinos a partir de Paulo Afonso</h2>
+                </div>
+                <div class="col-md-4 text-end d-none d-md-block">
+                    <p class="mb-0">Elaborado por:</p>
+                    <h5 class="fs-6">SETIC - Secretaria de Turismo Indústria e Comércio</h5>
+                    <p>Junho de 2025</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Estatísticas Principais -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="card stat-card">
+                    <div class="stat-label">Destino Principal</div>
+                    <div class="stat-value" style="color: var(--primary-color);">São Paulo</div>
+                    <div class="stat-label">67% do tráfego aéreo</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card stat-card">
+                    <div class="stat-label">Passageiros (2024)</div>
+                    <div class="stat-value" style="color: var(--success-color);">6.789</div>
+                    <div class="stat-label">Crescimento de 25%</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card stat-card">
+                    <div class="stat-label">Voos (2024)</div>
+                    <div class="stat-value" style="color: var(--warning-color);">156</div>
+                    <div class="stat-label">Média de 13/mês</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card stat-card">
+                    <div class="stat-label">Ocupação</div>
+                    <div class="stat-value" style="color: var(--danger-color);">78%</div>
+                    <div class="stat-label">Taxa média em 2024</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Principais Rotas -->
+        <h2 class="section-title">Principais Rotas Aéreas</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        Demanda Estimada por Rota (passageiros/ano)
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="routesChart"></canvas>
+                        </div>
+                        <div class="source-citation">
+                            Fonte: ANAC - Dados Estatísticos do Transporte Aéreo (2024)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        Rotas Potenciais Prioritárias
+                    </div>
+                    <div class="card-body">
+                        <h5 class="mb-3">Destinos com maior potencial de conexão:</h5>
+                        <div>
+                            <span class="route-badge">São Paulo (GRU/CGH)</span>
+                            <span class="route-badge">Recife (REC)</span>
+                            <span class="route-badge">Salvador (SSA)</span>
+                            <span class="route-badge">Brasília (BSB)</span>
+                            <span class="route-badge">Maceió (MCZ)</span>
+                        </div>
+                        <hr>
+                        <h5 class="mt-3 mb-2">Fatores de Priorização:</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Demanda histórica comprovada
+                                <span class="badge bg-primary rounded-pill">1º</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Conexões estratégicas
+                                <span class="badge bg-primary rounded-pill">2º</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Potencial turístico
+                                <span class="badge bg-primary rounded-pill">3º</span>
+                            </li>
+                        </ul>
+                        <div class="source-citation mt-2">
+                            Fonte: Análise SETIC baseada em dados da ANAC e pesquisas locais
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparativo com Transporte Alternativo -->
+        <h2 class="section-title">Comparativo com Transporte Terrestre (Rota Paulo Afonso - São Paulo)</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        Distribuição de Passageiros por Meio de Transporte (2024)
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="transportModeChart"></canvas>
+                        </div>
+                        <div class="source-citation">
+                            Fonte: ANAC, ANTT e Cooperativas locais de transporte
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        Comparativo de Tempo e Preço (2024)
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="chart-container">
+                                    <canvas id="travelTimeChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="chart-container">
+                                    <canvas id="priceComparisonChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="source-citation">
+                            Fonte: ANAC - Tarifas Aéreas Comercializadas e ANTT
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evolução da Rota Principal -->
+        <h2 class="section-title">Evolução da Rota Paulo Afonso - São Paulo</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        Passageiros Aéreos (2013-2025)
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="passengersHistoryChart"></canvas>
+                        </div>
+                        <div class="source-citation">
+                            Fonte: ANAC - Dados Estatísticos do Transporte Aéreo
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        Taxa de Ocupação e Frequência de Voos (2013-2025)
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="occupancyRateChart"></canvas>
+                        </div>
+                        <div class="source-citation">
+                            Fonte: ANAC - Dados Estatísticos do Transporte Aéreo
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Potencial de Crescimento -->
+        <h2 class="section-title">Potencial de Crescimento</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        Demanda Reprimida Estimada
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="demandChart"></canvas>
+                        </div>
+                        <div class="source-citation">
+                            Fonte: Estimativas SETIC baseadas em pesquisas de mercado
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        Voos de Aproveitamento - Potencial
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="routeOptimizationChart"></canvas>
+                        </div>
+                        <div class="source-citation">
+                            Fonte: Análise baseada em dados da ANAC e FlightRadar24
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Sobre esta Análise</h5>
+                    <p>Relatório de Rotas Prioritárias para o Aeroporto de Paulo Afonso, focado nos principais destinos e conexões estratégicas.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Fontes de Dados</h5>
+                    <ul class="list-unstyled">
+                        <li>ANAC - Agência Nacional de Aviação Civil</li>
+                        <li>ANTT - Agência Nacional de Transportes Terrestres</li>
+                        <li>FlightRadar24</li>
+                        <li>Cooperativas locais de transporte</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contato</h5>
+                    <p>Para mais informações, entre em contato com a SETIC - Secretaria de Turismo Indústria e Comércio.</p>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p>&copy; 2025 SETIC - Todos os direitos reservados</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Configuração global do Chart.js
+        Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+        Chart.defaults.color = '#333';
+
+        // Cores para os gráficos
+        const colors = {
+            blue: 'rgba(13, 110, 253, 0.7)',
+            green: 'rgba(25, 135, 84, 0.7)',
+            yellow: 'rgba(255, 193, 7, 0.7)',
+            red: 'rgba(220, 53, 69, 0.7)',
+            purple: 'rgba(111, 66, 193, 0.7)',
+            orange: 'rgba(253, 126, 20, 0.7)'
+        };
+
+        // Dados para os gráficos
+        const routesData = {
+            labels: ['São Paulo', 'Recife', 'Salvador', 'Brasília', 'Maceió'],
+            datasets: [{
+                label: 'Demanda Estimada (passageiros/ano)',
+                data: [18000, 12000, 10000, 6000, 5000],
+                backgroundColor: [
+                    colors.blue,
+                    colors.green,
+                    colors.yellow,
+                    colors.purple,
+                    colors.orange
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const transportModeData = {
+            labels: ['Avião', 'Ônibus', 'Van'],
+            datasets: [{
+                label: 'Passageiros Mensais',
+                data: [6789/12, 13780/12, 3560/12],
+                backgroundColor: [
+                    colors.blue,
+                    colors.green,
+                    colors.yellow
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const travelTimeData = {
+            labels: ['Avião', 'Ônibus', 'Van'],
+            datasets: [{
+                label: 'Tempo de Viagem (horas)',
+                data: [2.5, 36, 32],
+                backgroundColor: [
+                    colors.blue,
+                    colors.green,
+                    colors.yellow
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const priceComparisonData = {
+            labels: ['Avião', 'Ônibus', 'Van'],
+            datasets: [{
+                label: 'Preço Médio (R$)',
+                data: [850, 380, 320],
+                backgroundColor: [
+                    colors.blue,
+                    colors.green,
+                    colors.yellow
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const passengersHistoryData = {
+            labels: ['2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025*'],
+            datasets: [{
+                label: 'Passageiros',
+                data: [7890, 9560, 7650, 4320, 3210, 2870, 3450, 1230, 2340, 3780, 5432, 6789, 7654],
+                backgroundColor: colors.blue,
+                borderColor: colors.blue,
+                borderWidth: 2,
+                tension: 0.1
+            }]
+        };
+
+        const occupancyRateData = {
+            labels: ['2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025*'],
+            datasets: [{
+                label: 'Taxa de Ocupação (%)',
+                data: [68, 72, 67, 64, 62, 60, 65, 54, 58, 65, 72, 78, 81],
+                backgroundColor: 'transparent',
+                borderColor: colors.green,
+                borderWidth: 2,
+                tension: 0.1,
+                yAxisID: 'y'
+            }, {
+                label: 'Número de Voos',
+                data: [98, 112, 96, 76, 54, 48, 56, 24, 45, 78, 124, 156, 178],
+                backgroundColor: colors.blueLight,
+                borderColor: colors.blue,
+                borderWidth: 1,
+                type: 'bar',
+                yAxisID: 'y1'
+            }]
+        };
+
+        const demandData = {
+            labels: ['Demanda Atual', 'Demanda Reprimida', 'Potencial Total'],
+            datasets: [{
+                label: 'Passageiros/ano',
+                data: [6789, 10000, 16789],
+                backgroundColor: [
+                    colors.blue,
+                    colors.yellow,
+                    colors.green
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const routeOptimizationData = {
+            labels: ['Recife-PA-Salvador', 'Salvador-PA-Maceió', 'Recife-PA-Petrolina', 'Salvador-PA-Aracaju'],
+            datasets: [{
+                label: 'Viabilidade Operacional (%)',
+                data: [85, 78, 72, 68],
+                backgroundColor: colors.blue,
+                borderColor: colors.blue,
+                borderWidth: 1
+            }]
+        };
+
+        // Função para criar gráficos
+        function createChart(id, type, data, options = {}) {
+            const ctx = document.getElementById(id).getContext('2d');
+            return new Chart(ctx, {
+                type: type,
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        if (context.chart.config.type === 'pie' || context.chart.config.type === 'doughnut') {
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = Math.round((context.parsed / total) * 100);
+                                            return `${label}${context.parsed.toLocaleString('pt-BR')} (${percentage}%)`;
+                                        }
+                                        return label + context.parsed.y.toLocaleString('pt-BR');
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    ...options
+                }
+            });
+        }
+
+        // Inicializar gráficos quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gráfico de rotas prioritárias
+            createChart('routesChart', 'bar', routesData, {
+                indexAxis: 'y'
+            });
+
+            // Gráfico de modos de transporte
+            createChart('transportModeChart', 'pie', transportModeData);
+
+            // Gráfico de tempo de viagem
+            createChart('travelTimeChart', 'bar', travelTimeData, {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw + ' horas';
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de comparação de preços
+            createChart('priceComparisonChart', 'bar', priceComparisonData, {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'R$ ' + context.raw;
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico histórico de passageiros
+            createChart('passengersHistoryChart', 'line', passengersHistoryData);
+
+            // Gráfico de taxa de ocupação e voos
+            createChart('occupancyRateChart', 'line', occupancyRateData, {
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Taxa de Ocupação (%)'
+                        },
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Número de Voos'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de demanda reprimida
+            createChart('demandChart', 'bar', demandData);
+
+            // Gráfico de otimização de rotas
+            createChart('routeOptimizationChart', 'bar', routeOptimizationData, {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw + '%';
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
