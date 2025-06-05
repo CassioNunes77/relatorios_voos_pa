@@ -262,7 +262,7 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        Passageiros Aéreos (2013-2025)
+                        Passageiros Aéreos (2013-2024)
                     </div>
                     <div class="card-body">
                         <div class="chart-container">
@@ -277,7 +277,7 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        Taxa de Ocupação e Frequência de Voos (2013-2025)
+                        Taxa de Ocupação e Frequência de Voos (2013-2024)
                     </div>
                     <div class="card-body">
                         <div class="chart-container">
@@ -370,7 +370,8 @@
             yellow: 'rgba(255, 193, 7, 0.7)',
             red: 'rgba(220, 53, 69, 0.7)',
             purple: 'rgba(111, 66, 193, 0.7)',
-            orange: 'rgba(253, 126, 20, 0.7)'
+            orange: 'rgba(253, 126, 20, 0.7)',
+            blueLight: 'rgba(13, 110, 253, 0.2)'
         };
 
         // Dados para os gráficos
@@ -433,10 +434,10 @@
         };
 
         const passengersHistoryData = {
-            labels: ['2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025*'],
+            labels: ['2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
             datasets: [{
                 label: 'Passageiros',
-                data: [7890, 9560, 7650, 4320, 3210, 2870, 3450, 1230, 2340, 3780, 5432, 6789, 7654],
+                data: [7890, 9560, 7650, 4320, 3210, 2870, 3450, 1230, 2340, 3780, 5432, 6789],
                 backgroundColor: colors.blue,
                 borderColor: colors.blue,
                 borderWidth: 2,
@@ -445,10 +446,10 @@
         };
 
         const occupancyRateData = {
-            labels: ['2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025*'],
+            labels: ['2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
             datasets: [{
                 label: 'Taxa de Ocupação (%)',
-                data: [68, 72, 67, 64, 62, 60, 65, 54, 58, 65, 72, 78, 81],
+                data: [68, 72, 67, 64, 62, 60, 65, 54, 58, 65, 72, 78],
                 backgroundColor: 'transparent',
                 borderColor: colors.green,
                 borderWidth: 2,
@@ -456,7 +457,7 @@
                 yAxisID: 'y'
             }, {
                 label: 'Número de Voos',
-                data: [98, 112, 96, 76, 54, 48, 56, 24, 45, 78, 124, 156, 178],
+                data: [98, 112, 96, 76, 54, 48, 56, 24, 45, 78, 124, 156],
                 backgroundColor: colors.blueLight,
                 borderColor: colors.blue,
                 borderWidth: 1,
@@ -630,4 +631,4 @@
         });
     </script>
 </body>
-</html> 
+</html>
