@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retomada de Voos - Paulo Afonso/BA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+        
+        .divider {
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            margin: 1.5rem 0;
+            border-radius: 2px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .issue-list {
+            list-style-type: none;
+        }
+        
+        .issue-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .issue-item:last-child {
+            border-bottom: none;
+        }
+        
+        .issue-icon {
+            color: var(--accent);
+            margin-right: 10px;
+            font-size: 0.9rem;
+            margin-top: 3px;
+        }
+        
+        .priority {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+        
+        .high {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: var(--accent);
+        }
+        
+        .medium {
+            background-color: rgba(243, 156, 18, 0.2);
+            color: var(--warning);
+        }
+        
+        .low {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: var(--success);
+        }
+        
+        .action-plan {
+            margin-top: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+        
+        .action-plan h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .action-plan h2 i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .action-card {
+            background: var(--light);
+            border-left: 4px solid var(--secondary);
+            padding: 1.2rem;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .action-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 5px;
+            background-color: var(--secondary);
+            width: 30%;
+        }
+        
+        .progress-text {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            text-align: right;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <h1><i class="fas fa-plane-departure"></i> Retomada de Voos Comerciais</h1>
+            <p class="subtitle">Dashboard estratégico para Paulo Afonso/BA - Identificação de Pontos Cegos</p>
+            <div class="divider"></div>
+        </header>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-heart"></i> Narrativa Emocional
+                </div>
+                <div class="card-body">
+                    <ul class="issue-list">
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Falta de conexão emocional</strong>
+                                <p>Campanha técnica sem apelo ao orgulho local e identidade regional</p>
+                                <span class="priority high">Alta Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Ausência de liderança carismática</strong>
+                                <p>Não há figura pública encampando a causa de forma midiática</p>
+                                <span class="priority medium">Média Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Comunicação baseada apenas em dados</strong>
+                                <p>Falta storytelling que mobilize a população emocionalmente</p>
+                                <span class="priority medium">Média Prioridade</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-fist-raised"></i> Estratégia de Pressão
+                </div>
+                <div class="card-body">
+                    <ul class="issue-list">
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Falta de coordenação</strong>
+                                <p>Mobilização fragmentada sem estratégia unificada de pressão</p>
+                                <span class="priority high">Alta Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Ausência de campanha digital</strong>
+                                <p>Não aproveitamento de hashtags e mobilização em redes sociais</p>
+                                <span class="priority high">Alta Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Pressão política ineficaz</strong>
+                                <p>Falta de abordagem estratégica com políticos locais e federais</p>
+                                <span class="priority medium">Média Prioridade</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i> Potencial Econômico
+                </div>
+                <div class="card-body">
+                    <ul class="issue-list">
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Argumentos genéricos</strong>
+                                <p>Falta de dados impactantes sobre potencial turístico e econômico</p>
+                                <span class="priority medium">Média Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Foco apenas na demanda local</strong>
+                                <p>Não apresentação como oportunidade nacional de negócios</p>
+                                <span class="priority high">Alta Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Subutilização de atrativos</strong>
+                                <p>Cânions, história da energia e outros ativos não são destaques</p>
+                                <span class="priority medium">Média Prioridade</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-users"></i> Alinhamento Setorial
+                </div>
+                <div class="card-body">
+                    <ul class="issue-list">
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Falta de sintonia</strong>
+                                <p>Prefeitura, estado e setor privado atuando de forma desconexa</p>
+                                <span class="priority high">Alta Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Ausência de liderança unificadora</strong>
+                                <p>Não há coordenação clara entre os diversos atores</p>
+                                <span class="priority high">Alta Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Interesses divergentes</strong>
+                                <p>Setores puxam para diferentes direções sem visão comum</p>
+                                <span class="priority medium">Média Prioridade</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-comments"></i> Comunicação Pública
+                </div>
+                <div class="card-body">
+                    <ul class="issue-list">
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Presença digital fraca</strong>
+                                <p>Não há perfil oficial ou campanha digital organizada</p>
+                                <span class="priority high">Alta Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Falta de transparência</strong>
+                                <p>População não é informada sobre avanços e desafios</p>
+                                <span class="priority medium">Média Prioridade</span>
+                            </div>
+                        </li>
+                        <li class="issue-item">
+                            <i class="fas fa-exclamation-circle issue-icon"></i>
+                            <div>
+                                <strong>Linguagem técnica</strong>
+                                <p>Comunicação não adaptada para o público geral</p>
+                                <span class="priority low">Baixa Prioridade</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-plan">
+            <h2><i class="fas fa-lightbulb"></i> Plano de Ação Recomendado</h2>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h3>Campanha Narrativa</h3>
+                    <p>Criar movimento "Paulo Afonso no Mapa Aéreo" com storytelling emocional</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 20%;"></div>
+                    </div>
+                    <p class="progress-text">20% concluído</p>
+                </div>
+                
+                <div class="action-card">
+                    <h3>Estratégia Digital</h3>
+                    <p>Lançar #VoltaVoosPA com influenciadores locais e conteúdo viral</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 10%;"></div>
+                    </div>
+                    <p class="progress-text">10% concluído</p>
+                </div>
+                
+                <div class="action-card">
+                    <h3>Dados Econômicos</h3>
+                    <p>Elaborar estudo de impacto com projeções turísticas e econômicas</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 35%;"></div>
+                    </div>
+                    <p class="progress-text">35% concluído</p>
+                </div>
+                
+                <div class="action-card">
+                    <h3>Governança Unificada</h3>
+                    <p>Criar comitê estratégico com todos os setores envolvidos</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 15%;"></div>
+                    </div>
+                    <p class="progress-text">15% concluído</p>
+                </div>
+                
+                <div class="action-card">
+                    <h3>Plano de Comunicação</h3>
+                    <p>Desenvolver estratégia omnicanal com transparência e engajamento</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 5%;"></div>
+                    </div>
+                    <p class="progress-text">5% concluído</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Dashboard estratégico para a retomada de voos comerciais em Paulo Afonso/BA</p>
+            <p>Atualizado em <span id="current-date"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        // Atualiza a data atual
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const currentDate = new Date().toLocaleDateString('pt-BR', options);
+        document.getElementById('current-date').textContent = currentDate;
+        
+        // Efeito de carregamento progressivo
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
